@@ -83,3 +83,16 @@ retailer(<u>tin</u>, name)
 ivm(<u>serial_number</u>, <u>manuf</u>)
 
 point_of_retail(<u>adress</u>, name)
+
+
+ALBEGRA RELACIONAL
+
+SQL
+
+SELECT * FROM HAS INNER JOIN CATEGORY ON CATEGORY.name WHERE CATEGORY.name = "Barras Energéticas" INNER JOIN SHELVE ON SHELVE.name INNER JOIN REPLENISHMENT EVENT ON shelve.nr WHERE UNITS > 10 AND INSTANT > 2021/12/31
+
+SELECT IVM FROM OF INNER JOIN PLANOGRAM ON nr WHERE EAN = 9002490100070
+
+SELECT COUNT(SUPER_CATEGORY) FROM has-other WHERE SUPER_CATEGORY.name = "SOPAS TAKE-AWAY"
+
+SELECT FROM PRODUCT INNER JOIN replenishment ON ean IN NER JOIN replenisment_event ON instant GROUP BY units ORDER BY COUNT(units) DESC
