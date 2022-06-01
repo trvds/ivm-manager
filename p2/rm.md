@@ -29,6 +29,8 @@ replenishment(<u>instant, ean, nr, serial_number, manuf</u>)
 
 has-other(<u>category_name</u>, <u>super_category_name</u>):
 
+- IC-1: A category can't be contained in itself
+- IC-2 There can't be any cycles in the categories hierarchy
 - category_name: FK(category.name)
 - super_category_name: FK(super_category.name)
 
