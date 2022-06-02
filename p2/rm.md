@@ -4,29 +4,28 @@ shelve(<u>serial_number, manuf, nr</u>, name, height)
 
 - IC-7: No shelve can exist at the same time in 'ambient_temp_shelf', 'warm_shelf' and in 'cold_shelf'
 - IC-8: A shelve must exist in one of 'ambient_temp_shelf', 'warm_shelf' and in 'cold_shelf'
-- serial_number, manuf: FK(IVM)
-- name: FK(category)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
+- name: FK(category.name)
 
 ambient_temp_shelf(<u>serial_number, manuf, nr</u>)
 
-- serial_number, manuf: FK(IVM)
+- serial_number, manuf: FK(ivm,serial_number, ivm.manuf)
 - nr: FK(shelve.nr)
 
 warm_shelf(<u>serial_number, manuf, nr</u>)
 
-- serial_number, manuf: FK(IVM)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
 - nr: FK(shelve.nr)
 
 cold_shelf(<u>serial_number, manuf, nr</u>)
 
-- serial_number, manuf: FK(IVM)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
 - nr: FK(shelve.nr)
 
 replenishment_event(<u>instant, nr, serial_number, manuf, ean</u>, tin, units)
 
 - serial_number, manuf, nr, ean: FK(planogram.serial_number, planogram.manuf, planogram.nr, planogram.ean)
-- tin: FK(retailler)
-TODO: ask
+- tin: FK(retailler.tin)
 
 product(<u>ean</u>, descr)
 
@@ -55,27 +54,27 @@ point_of_retail(<u>adress</u>, name)
 
 has(<u>ean, name</u>)
 
-- ean: FK(product)
-- name: FK(category)
+- ean: FK(product.ean)
+- name: FK(category.name)
 
 responsible-for(<u>name, tin, serial_number, manuf</u>)
 
-- name: FK(category)
-- tin: FK(retailer)
-- serial_number, manuf: FK(IVM)
+- name: FK(category.name)
+- tin: FK(retailer.tin)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
 
 installed-at(<u>serial_number, manuf</u>, adress, nr):
 
-- serial_number, manuf: FK(IVM)
-- adress: FK(point_of_retail)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
+- adress: FK(point_of_retail.adress)
 
 planogram(<u>ean, nr, serial_number, manuf</u>, faces, units, loc):
 
-- ean: FK(Product)
-- nr: FK(Shelve)
-- serial_number, manuf: FK(IVM)
+- ean: FK(product.ean)
+- nr: FK(shelve.nr)
+- serial_number, manuf: FK(ivm.serial_number, ivm.manuf)
 
-- IC-4: TODO
+- IC-4: The number of replenished units from a Replenishment Event can't exceed the number of units specified in the planogram.
 
 has-other(<u>category_name</u>, super_category_name):
 
