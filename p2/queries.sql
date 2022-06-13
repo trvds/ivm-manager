@@ -1,30 +1,31 @@
-/* 1) (Tiago) */
+/* 1) */
 
-SELECT ean, descr
-FROM products NATURAL JOIN replenishment_event NATURAL JOIN category
-WHERE units > 10, instant > '2021/12/31', category = 'Barras Energéticas';
+    SELECT DISTINCT ean, descr
+    FROM product NATURAL JOIN replenishment_event NATURAL JOIN has
+    WHERE instant > '2021/12/31' AND units > 10 AND name = 'Barras Energeticas';
 
-/* 1) (Melita) */
+/* 2) */
 
-SELECT * 
-FROM HAS INNER JOIN CATEGORY ON CATEGORY.name 
-WHERE CATEGORY.name = "Barras Energéticas" INNER JOIN SHELVE ON SHELVE.name INNER JOIN REPLENISHMENT EVENT ON shelve.nr WHERE UNITS > 10 AND INSTANT > 2021/12/31
+    SELECT DISTINCT serial_number, manuf
+    FROM planogram
+    WHERE ean = 9002490100070;
 
-/* 2) (Melita)*/
+/* 3) */
 
-SELECT IVM 
-FROM OF INNER JOIN PLANOGRAM ON nr 
-WHERE EAN = 9002490100070
+    SELECT COUNT(*)
+    FROM has_other
+    WHERE super_category_name = 'Sopas Take-Away';
 
-/* 3) (Melita)*/
+/* 4) */
 
-SELECT COUNT(SUPER_CATEGORY)
-FROM has-other
-WHERE SUPER_CATEGORY.name = "SOPAS TAKE-AWAY"
-
-/* 4) (Melita) */
-
-SELECT 
-FROM PRODUCT INNER JOIN replenishment ON ean INNER JOIN replenisment_event ON instant 
-GROUP BY units 
-ORDER BY COUNT(units) DESC
+    SELECT ean, descr
+    FROM product NATURAL JOIN (
+        SELECT ean
+        FROM replenishment_event
+        GROUP BY ean
+        HAVING SUM(units) >= ALL (
+            SELECT SUM(units)
+            FROM replenishment_event
+            GROUP BY ean
+        )
+    );
