@@ -119,7 +119,7 @@ create table responsible_for (
     constraint fk_responsible_for_category foreign key(category_name) references category(name)
 );
 
-create table resuply_event(
+create table resupply_event(
     ean char(13) not null,
     number int not null,
     serial_number char(20) not null,
