@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS Vendas;
+
 CREATE VIEW Vendas(ean, cat, ano, trimestre, dia_mes, dia_semana, distrito, concelho, unidades)
 AS
 SELECT resupply_event.units AS unidades, product.ean, product.name AS cat, 
