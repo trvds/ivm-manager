@@ -1,3 +1,4 @@
+/* 1 */
 SELECT name
 FROM retailer NATURAL JOIN (
     SELECT tin
@@ -10,26 +11,32 @@ FROM retailer NATURAL JOIN (
     )
 );
 
+/* 2 */
 SELECT name FROM retailer
 NATURAL JOIN(
     SELECT tin FROM responsible_for
-    WHERE name IN SELECT
-        (name FROM simple_category)
+    WHERE name IN (
+        SELECT name 
+        FROM simple_category
+    )
 )
 
 SELECT name
 FROM retailer NATURAL JOIN responsible_for NATURAL JOIN simple_category
 GROUP BY tin
-HAVING COUNT(*) = (
+HAVING COUNT(tin) = (
     SELECT COUNT(*)
     FROM simple_category
 );
 
+/* 3 */
 SELECT ean FROM product
-WHERE ean NOT IN SELECT
-    (ean FROM resupply_event)
+WHERE ean NOT IN (
+    SELECT ean
+    FROM resupply_event
+);
 
-SELECT ean from resupply_event 
-    WHERE(
-        COUNT(DISTINCT tin) = 1
-    )   
+/* 4 */
+SELECT ean
+FROM resupply_event 
+WHERE COUNT(DISTINCT tin) = 1;
