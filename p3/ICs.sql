@@ -3,21 +3,15 @@
 CREATE OR REPLACE FUNCTION check_category_loop()
 RETURNS TRIGGER AS
 $$
-DECLARE cat_name VARCHAR(255);
+DECLARE cat_name VARCHAR(255) DEFAULT NEW.category;
 BEGIN
-    SET cat_name := NEW.super_category
     LOOP
         IF NEW.category = cat_name
             RAISE EXCEPTION 'A category can not be contained it itself'
-        ELSEIF cat_name IN (
-            SELECT category
+        ELSEIF cat_name IN (SELECT category FROM has_other)
+            SELECT super_category INTO cat_name
             FROM has_other
-        )
-            SET cat_name := (
-                SELECT super_category
-                FROM has_other
-                WHERE category = cat_name
-            )
+            WHERE category = cat_name
         ELSE
             EXIT
         END IF
@@ -25,6 +19,8 @@ BEGIN
     RETURN NEW
 END
 $$ LANGUAGE plpgsql
+
+DROP TRIGGER check_category_loop_trigger ON has_other IF EXISTS
 
 CREATE TRIGGER check_category_loop_trigger
 BEFORE UPDATE OR INSERT ON has_other
@@ -37,14 +33,10 @@ RETURNS TRIGGER AS
 $$
 DECLARE max_units INTEGER
 BEGIN
-    SET max_units := (
-        SELECT units
-        FROM planogram 
-        WHERE ean = NEW.ean 
-            AND nr = NEW.nr
-            AND serial_number = NEW.serial_number
-            AND producer = NEW.producer
-    )
+    SELECT units INTO max_units
+    FROM planogram 
+    WHERE ean = NEW.ean AND nr = NEW.nr AND producer = NEW.producer
+        AND serial_number = NEW.serial_number
 
     IF NEW.units > max_units
         RAISE EXCEPTION 'The number of replenished units from a resupply event
@@ -55,6 +47,7 @@ BEGIN
 END
 $$ LANGUAGE plpgsql
 
+DROP TRIGGER replenished_units_trigger ON resupply_event IF EXISTS
 
 CREATE TRIGGER replenished_units_trigger
 BEFORE INSERT ON resuply_event
@@ -68,19 +61,14 @@ $$
 DECLARE prod_cat VARCHAR(255);
 DECLARE shelf_cat VARCHAR(255);
 BEGIN
-    SET prod_cat = (
-        SELECT name
-        FROM has_category
-        WHERE ean = NEW.ean
-    )
+    SELECT name INTO prod_cat
+    FROM has_category
+    WHERE ean = NEW.ean
 
-    SET shelf_cat = (
-        SELECT name
-        FROM shelf
-        WHERE nr = NEW.nr 
-            AND serial_number = NEW.serial_number
-            AND producer = NEW.producer
-    )
+    SELECT name INTO shelf_cat
+    FROM shelf
+    WHERE nr = NEW.nr AND producer = NEW.producer
+        AND serial_number = NEW.serial_number
 
     IF prod_cat != shelf_cat
         RAISE EXCEPTION 'A product can only be replenished in a shelf that shows
@@ -90,6 +78,8 @@ BEGIN
     RETURN NEW
 END
 $$ LANGUAGE plpgsql
+
+DROP TRIGGER replenished_product_trigger ON resupply_event IF EXISTS
 
 CREATE TRIGGER replenished_product_trigger
 BEFORE INSERT ON resuply_event
