@@ -1,7 +1,7 @@
-DROP VIEW IF EXISTS Vendas;
+DROP VIEW IF EXISTS sales;
 
 CREATE VIEW 
-    Vendas(ean, cat, year, quarter, month, month_day, week_day, district, county, units)
+    sales(ean, cat, year, quarter, month, month_day, week_day, district, county, units)
 AS
 SELECT ean, name AS cat, 
     EXTRACT(YEAR FROM instant) AS year,
