@@ -11,7 +11,7 @@ drop table shelf cascade;
 drop table planogram cascade;
 drop table retailer cascade;
 drop table responsible_for cascade;
-drop table resuply_event cascade;
+drop table resupply_event cascade;
 
 
 create table category (
