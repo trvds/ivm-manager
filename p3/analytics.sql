@@ -2,7 +2,8 @@
 
 SELECT week_day, county, SUM(units) AS total_units
 FROM Vendas
-WHERE ((year BETWEEN value1 AND value2) AND (month BETWEEN value3 AND value4) AND (month_day BETWEEN value5 AND value6))
+WHERE ((year BETWEEN value1 AND value2) AND (month BETWEEN value3 AND value4)
+ AND (month_day BETWEEN value5 AND value6))
 GROUP BY
     ROLLUP (week_day, county)
 
