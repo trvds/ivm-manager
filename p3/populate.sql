@@ -114,11 +114,11 @@ INSERT INTO responsible_for VALUES ('Refrigerantes', '987654321', '1234567890987
 
 -- Table: resupply_event
 -- INSERT INTO resupply_event VALUES ('ean', 'number', 'serial_number', 'manuf', 'instant', 'units', 'tin');
-INSERT INTO resupply_event VALUES ('4486942345738', '1', '1234567890123456789', 'Bosch', '2022-01-01 00:00:00', '20', '123456789');
+INSERT INTO resupply_event VALUES ('4486942345738', '1', '1234567890123456789', 'Bosch', '2022-04-13 00:00:00', '20', '123456789');
 INSERT INTO resupply_event VALUES ('7446669566976', '1', '1234567890123456789', 'Bosch', '2022-01-01 00:00:00', '12', '123456789');
-INSERT INTO resupply_event VALUES ('0506275190843', '3', '1234567890123456789', 'Bosch', '2022-01-01 00:00:00', '12', '123456789');
+INSERT INTO resupply_event VALUES ('0506275190843', '3', '1234567890123456789', 'Bosch', '2022-08-30 00:00:00', '13', '123456789'); --this is not supposed to appear in the olap (we can check by units)
 
-INSERT INTO resupply_event VALUES ('4486942345738', '1', '1234567890987654321', 'Makita', '2022-01-01 00:00:00', '10', '987654321');
+INSERT INTO resupply_event VALUES ('4486942345738', '1', '1234567890987654321', 'Makita', '2022-01-03 00:00:00', '10', '987654321');
 
-INSERT INTO resupply_event VALUES ('7446669566976', '1', '1321412315324324242', 'Makita', '2022-01-01 00:00:00', '8', '123456789');
-INSERT INTO resupply_event VALUES ('0506275190843', '3', '1321412315324324242', 'Makita', '2022-01-01 00:00:00', '10', '987654321');
+INSERT INTO resupply_event VALUES ('7446669566976', '1', '1321412315324324242', 'Makita', '2022-09-20 00:00:00', '8', '123456789'); -- this is not supposed to appear in the olap (we can check by units)
+INSERT INTO resupply_event VALUES ('0506275190843', '3', '1321412315324324242', 'Makita', '2022-01-18 00:00:00', '6', '987654321');

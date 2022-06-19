@@ -1,9 +1,9 @@
-/* 1 */
+/* 1 - BETWEEN 01-01-2022 AND 30-04-2022*/
 SELECT week_day, county, SUM(units) as total_units
 FROM sales
-WHERE (year BETWEEN year_x AND year_y)
-    AND (month BETWEEN month_x AND month_y)
-    AND (month_day BETWEEN day_x AND day_y)
+WHERE (year BETWEEN 2021 AND 2022)
+    AND (month BETWEEN 01 AND 04)
+    AND (month_day BETWEEN 01 AND 31)
 GROUP BY
     GROUPING SETS ((week_day), (county), ());
 
