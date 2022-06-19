@@ -10,4 +10,4 @@ SELECT ean, name AS cat,
     EXTRACT(DAY FROM instant) AS month_day,
     EXTRACT(DOW FROM instant) AS week_day,
     district, county, units
-FROM resupply_event NATURAL JOIN product NATURAL JOIN installed_in
+FROM resupply_event NATURAL JOIN retail_point NATURAL JOIN has_other

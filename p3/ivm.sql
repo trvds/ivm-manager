@@ -12,7 +12,6 @@ drop table if exists planogram cascade;
 drop table if exists retailer cascade;
 drop table if exists responsible_for cascade;
 drop table if exists resupply_event cascade;
-drop table if exists resupply_event cascade;
 
 
 create table category (
