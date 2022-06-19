@@ -122,3 +122,15 @@ INSERT INTO resupply_event VALUES ('4486942345738', '1', '1234567890987654321', 
 
 INSERT INTO resupply_event VALUES ('7446669566976', '1', '1321412315324324242', 'Makita', '2022-09-20 00:00:00', '8', '123456789');
 INSERT INTO resupply_event VALUES ('0506275190843', '3', '1321412315324324242', 'Makita', '2022-05-18 00:00:00', '6', '987654321'); 
+
+/* QUERIES TO CHECK ICs WORKING
+IC-1
+INSERT INTO has_other VALUES ('Chocolate', 'Chocolate')
+
+IC-4 - resupplyinh 30 units where maximum is 14
+INSERT INTO resupply_event VALUES ('0506275190843', '3', '1321412315324324242', 'Makita', '2022-05-18 00:00:00', '30', '987654321');
+
+IC-5 resupplyin Coca-Cola (category Refrigerante) in shelf 1 (category Bolos)
+INSERT INTO resupply_event VALUES ('0506275190843', '1', '1321412315324324242', 'Makita', '2022-05-18 00:00:00', '6', '987654321'); 
+
+*/
