@@ -1,17 +1,18 @@
-drop table category cascade;
-drop table simple_category cascade;
-drop table super_category cascade;
-drop table has_other cascade;
-drop table product cascade;
-drop table has_category cascade;
-drop table ivm cascade;
-drop table retail_point cascade;
-drop table installed_in cascade;
-drop table shelf cascade;
-drop table planogram cascade;
-drop table retailer cascade;
-drop table responsible_for cascade;
-drop table resupply_event cascade;
+DROP TABLE IF EXISTS category cascade;
+DROP TABLE IF EXISTS simple_category cascade;
+DROP TABLE IF EXISTS super_category cascade;
+DROP TABLE IF EXISTS has_other cascade;
+DROP TABLE IF EXISTS product cascade;
+DROP TABLE IF EXISTS has_category cascade;
+DROP TABLE IF EXISTS ivm cascade;
+drop table IF EXISTS retail_point cascade;
+DROP TABLE IF EXISTS installed_in cascade;
+DROP TABLE IF EXISTS shelf cascade;
+DROP TABLE IF EXISTS planogram cascade;
+DROP TABLE IF EXISTS retailer cascade;
+DROP TABLE IF EXISTS responsible_for cascade;
+DROP TABLE IF EXISTS resupply_event cascade;
+DROP TABLE IF EXISTS resupply_event cascade;
 
 
 create table category (
