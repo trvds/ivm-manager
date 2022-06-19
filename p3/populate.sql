@@ -28,6 +28,7 @@ INSERT INTO has_other VALUES ('Bebidas', 'Refrigerantes');
 -- INSERT INTO product VALUES ('ean', 'category', 'descr');
 INSERT INTO product VALUES ('4486942345738', 'Bolos', 'Bolo de chocolate');
 INSERT INTO product VALUES ('7446669566976', 'Bolos', 'Bolo de baunilha');
+INSERT INTO product VALUES ('3132415879832', 'Doces', 'Gomas');
 INSERT INTO product VALUES ('0506275190843', 'Refrigerantes', 'Coca-Cola');
 
 -- Table: has_category
@@ -35,6 +36,7 @@ INSERT INTO product VALUES ('0506275190843', 'Refrigerantes', 'Coca-Cola');
 INSERT INTO has_category VALUES ('4486942345738', 'Bolos');
 INSERT INTO has_category VALUES ('7446669566976', 'Bolos');
 INSERT INTO has_category VALUES ('0506275190843', 'Refrigerantes');
+INSERT INTO has_category VALUES ('3132415879832', 'Doces');
 
 -- Table: ivm
 -- INSERT INTO ivm VALUES ('serial_number', 'manuf');
@@ -63,6 +65,7 @@ INSERT INTO shelf VALUES ('3', '1234567890123456789', 'Bosch', '3', 'Refrigerant
 INSERT INTO shelf VALUES ('1', '1321412315324324242', 'Makita', '3', 'Bolos');
 INSERT INTO shelf VALUES ('2', '1321412315324324242', 'Makita', '3', 'Chocolates');
 INSERT INTO shelf VALUES ('3', '1321412315324324242', 'Makita', '3', 'Refrigerantes');
+INSERT INTO shelf VALUES ('4', '1321412315324324242', 'Makita', '3', 'Doces');
 
 INSERT INTO shelf VALUES ('1', '1234567890987654321', 'Makita', '3', 'Bolos');
 INSERT INTO shelf VALUES ('2', '1234567890987654321', 'Makita', '3', 'Chocolates');
@@ -74,10 +77,12 @@ INSERT INTO planogram VALUES ('4486942345738', '1', '1234567890123456789', 'Bosc
 INSERT INTO planogram VALUES ('7446669566976', '1', '1234567890123456789', 'Bosch', '3', '12', '1');
 INSERT INTO planogram VALUES ('0506275190843', '3', '1234567890123456789', 'Bosch', '2', '14', '2');
 
-INSERT INTO planogram VALUES ('4486942345738', '1', '1234567890987654321', 'Makita', '3', '13', '3');
-
 INSERT INTO planogram VALUES ('7446669566976', '1', '1321412315324324242', 'Makita', '3', '12', '1');
 INSERT INTO planogram VALUES ('0506275190843', '3', '1321412315324324242', 'Makita', '5', '23', '2');
+INSERT INTO planogram VALUES ('3132415879832', '4', '1321412315324324242', 'Makita', '3', '12', '1');
+
+INSERT INTO planogram VALUES ('4486942345738', '1', '1234567890987654321', 'Makita', '3', '13', '3');
+
 
 -- Table: retailer
 -- INSERT INTO retailer VALUES ('tin', 'name');

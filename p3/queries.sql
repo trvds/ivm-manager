@@ -9,13 +9,16 @@ FROM retailer NATURAL JOIN (
         FROM responsible_for
         GROUP BY tin
     )
-);
+) AS C;
 
 /* 2 */
 -- TOOD: e se não existir?
 SELECT name
 FROM retailer NATURAL JOIN responsible_for
-WHERE nome_cat IN simple_category
+WHERE category_name IN (
+    SELECT name
+    FROM simple_category
+)
 GROUP BY tin
 HAVING COUNT(*) = (
     SELECT COUNT(*)
