@@ -1,7 +1,6 @@
 -- Table: category
 -- INSERT INTO category VALUES ('category');
 INSERT INTO category VALUES ('Doces');
-INSERT INTO category VALUES ('Salgados');
 INSERT INTO category VALUES ('Bolos');
 INSERT INTO category VALUES ('Chocolates');
 INSERT INTO category VALUES ('Bebidas');
@@ -15,7 +14,6 @@ INSERT INTO simple_category VALUES ('Refrigerantes');
 -- Table: super_category
 -- INSERT INTO super_category VALUES ('category');
 INSERT INTO super_category VALUES ('Doces');
-INSERT INTO super_category VALUES ('Salgados');
 INSERT INTO super_category VALUES ('Bebidas');
 
 -- Table: has_other
@@ -43,18 +41,23 @@ INSERT INTO has_category VALUES ('3132415879832', 'Doces');
 INSERT INTO ivm VALUES ('1234567890123456789', 'Bosch');
 INSERT INTO ivm VALUES ('1234567890987654321', 'Makita');
 INSERT INTO ivm VALUES ('1321412315324324242', 'Makita');
+INSERT INTO ivm VALUES ('9183213131235123213', 'Bosch');
+INSERT INTO ivm VALUES ('5129832189182981933', 'Bosch');
 
 
 -- Table: retail_point
 -- INSERT INTO retail_point VALUES ('name', 'district', 'county');
 INSERT INTO retail_point VALUES ('Estação de Serviço - Galp', 'Lisboa', 'Oeiras');
 INSERT INTO retail_point VALUES ('Adega do Fredo', 'Viana do Castelo', 'Caminha');
+INSERT INTO retail_point VALUES ('Cave de Civil', 'Lisboa', 'Lisboa');
 
 -- Table: installed_in
 -- INSERT INTO installed_in VALUES ('serial_number', 'manuf', 'local');
 INSERT INTO installed_in VALUES ('1234567890123456789', 'Bosch', 'Adega do Fredo');
 INSERT INTO installed_in VALUES ('1321412315324324242', 'Makita', 'Estação de Serviço - Galp');
 INSERT INTO installed_in VALUES ('1234567890987654321', 'Makita', 'Estação de Serviço - Galp');
+INSERT INTO installed_in VALUES ('9183213131235123213', 'Bosch', 'Cave de Civil');
+INSERT INTO installed_in VALUES ('5129832189182981933', 'Bosch', 'Cave de Civil');
 
 -- Table: shelf
 -- INSERT INTO shelf VALUES ('number', 'serial_number', 'manuf', height, name);
@@ -70,6 +73,10 @@ INSERT INTO shelf VALUES ('4', '1321412315324324242', 'Makita', '3', 'Doces');
 INSERT INTO shelf VALUES ('1', '1234567890987654321', 'Makita', '3', 'Bolos');
 INSERT INTO shelf VALUES ('2', '1234567890987654321', 'Makita', '3', 'Chocolates');
 INSERT INTO shelf VALUES ('3', '1234567890987654321', 'Makita', '3', 'Refrigerantes');
+
+INSERT INTO shelf VALUES ('1', '9183213131235123213', 'Bosch', '3', 'Chocolates');
+
+INSERT INTO shelf VALUES ('1', '5129832189182981933', 'Bosch', '3', 'Refrigerantes');
 
 -- Table: planogram
 -- INSERT INTO planogram VALUES ('ean', 'number', 'serial_number', 'manuf', 'faces', 'units', 'loc');
@@ -92,8 +99,10 @@ INSERT INTO retailer VALUES ('987654321', 'Mariana');
 -- Table: responsible_for
 -- INSERT INTO responsible_for VALUES ('category_name', 'tin', 'serial_number', 'manuf');
 INSERT INTO responsible_for VALUES ('Bolos', '123456789', '1234567890123456789', 'Bosch');
-INSERT INTO responsible_for VALUES ('Bolos', '123456789', '1321412315324324242', 'Makita');
-INSERT INTO responsible_for VALUES ('Bolos', '987654321', '1234567890987654321', 'Makita');
+INSERT INTO responsible_for VALUES ('Bolos', '987654321', '1321412315324324242', 'Makita');
+INSERT INTO responsible_for VALUES ('Chocolates', '987654321', '9183213131235123213', 'Bosch');
+INSERT INTO responsible_for VALUES ('Refrigerantes', '987654321', '5129832189182981933', 'Bosch');
+
 /*
 INSERT INTO responsible_for VALUES ('Chocolates', '123456789', '1234567890123456789', 'Bosch');
 INSERT INTO responsible_for VALUES ('Chocolates', '123456789', '1321412315324324242', 'Makita');
