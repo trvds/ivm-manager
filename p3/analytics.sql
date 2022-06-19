@@ -1,9 +1,7 @@
-/* 1 - BETWEEN 01-01-2022 AND 30-04-2022*/
+/* 1 - BETWEEN 01-01-2021 AND 30-04-2022*/
 SELECT week_day, county, SUM(units) as total_units
-FROM sales
-WHERE (year BETWEEN 2021 AND 2022)
-    AND (month BETWEEN 01 AND 04)
-    AND (month_day BETWEEN 01 AND 31)
+FROM sales NATURAL JOIN resupply_event
+WHERE instant BETWEEN '2021-01-01 00:00:00' AND '2022-04-30 00:00:00'
 GROUP BY
     GROUPING SETS ((week_day), (county), ());
 
