@@ -17,7 +17,7 @@ INSERT INTO super_category VALUES ('Doces');
 INSERT INTO super_category VALUES ('Bebidas');
 
 -- Table: has_other
--- INSERT INTO has_other VALUES ('category', 'category');
+-- INSERT INTO has_other VALUES ('category', 'subcategory');
 INSERT INTO has_other VALUES ('Doces', 'Bolos');
 INSERT INTO has_other VALUES ('Doces', 'Chocolates');
 INSERT INTO has_other VALUES ('Bebidas', 'Refrigerantes');
