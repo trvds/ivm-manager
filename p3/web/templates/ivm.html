@@ -3,17 +3,18 @@
 
 <head>
     <meta charset="utf-8">
-    <title>List retailers - Flask</title>
+    <title>List ressuply events - Flask</title>
 </head>
 
 <body style="padding:20px">
 {% if cursor %}
+    <h3>Eventos de Reposição por IVM</h3>
     <table border="2px">
         <thead>
             <tr>
-                <th>TIN</th>
-                <th>Nome</th>
-                <th>Remover retalhista</th>
+                <th>Nº de Série</th>
+                <th>Fabricante</th>
+                <th>Eventos de Reposição</th>
             </tr>
         </thead>
         <tbody>
@@ -21,18 +22,14 @@
             <tr>
                 <td>{{ record[0] }}</td>
                 <td>{{ record[1] }}</td>
-                <td><a href="delete_retailer?retailer={{ record[0] }}">Remover
+                <td><a href="resupply_event?serial_number={{ record[0] }}&manuf={{ record[1]}}">Consultar
             </tr>
         {% endfor %}
         </tbody>
     </table>
     <br>
-    <form action="add_retailer">
-        <button type="submit">Adicionar novo retalhista</button>
-    </form>
-    <br>
     <form action="main_menu">
-        <button type="submit">Voltar atrás</button>
+        <button type="submit">Menu Principal</button>
     </form>
 {% else %}
     <p> Erro: não foi possível obter dados da base de dados!</p>

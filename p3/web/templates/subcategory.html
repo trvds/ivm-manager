@@ -6,22 +6,31 @@
 </head>
 <body style="padding:20px">
 {% if cursor %}
+    <h3> Subcategorias de {{ params.get("category") }} </h3>
     <table border="2px">
         <thead>
             <tr>
-                <th>Supercategoria</th>
                 <th>Subcategoria</th>
+                <th>Remover subcategoria</th>
             </tr>
         </thead>
         <tbody>
         {% for record in cursor %}
             <tr>
                 <td>{{ record[0] }}</td>
-                <td>{{ record[1] }}</td>
+                <td><a href="delete_subcategory?category={{ record[0] }}">Remover
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
+    <br>
+    <button onclick="location.href='add_subcategory?category={{ params.get("category") }}'" type="button">
+         Add new subcategory
+    </button>
+    <br>
+    <form action="super_category">
+        <button type="submit">Voltar atrás</button>
+    </form>
 {% else %}
     <p> Erro: não foi possível obter dados da base de dados!</p>
 {% endif %}

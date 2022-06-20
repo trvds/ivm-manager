@@ -8,16 +8,16 @@
 
 <body style="padding:20px">
 {% if cursor %}
+    <h3>Eventos de Reposição da IVM nº {{ params.get("serial_number") }}</h3>
     <table border="2px">
         <thead>
             <tr>
                 <th>EAN</th>
-                <th>Shelf Number</th>
-                <th>IVM Serial Number</th>
-                <th>Manufacturer</th>
-                <th>Instant</th>
-                <th>Units</th>
-                <th>Resupplier TIN</th>
+                <th>Nº da Prateleira</th>
+                <th>Instante</th>
+                <th>Unidades</th>
+                <th>TIN</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
@@ -29,11 +29,14 @@
                 <td>{{ record[3] }}</td>
                 <td>{{ record[4] }}</td>
                 <td>{{ record[5] }}</td>
-                <td>{{ record[6] }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <br>
+    <form action="ivm">
+        <button type="submit">Voltar atrás</button>
+    </form>
 {% else %}
     <p> Erro: não foi possível obter dados da base de dados!</p>
 {% endif %}
