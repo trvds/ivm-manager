@@ -5,11 +5,11 @@ BEGIN
 
     IF NEW.name NOT IN (SELECT name FROM super_category) AND NEW.name NOT IN(SELECT name FROM category) THEN
             INSERT INTO category VALUES(NEW.name);
-            RETURN NEW;
 
-    ELSE
-        RAISE EXCEPTION 'Category already exists';
+    ELSEIF NEW.name IN (SELECT name FROM super_category) THEN
+        RAISE EXCEPTION 'Category already exists and it is a super category';
     END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -50,7 +50,7 @@ $$
 BEGIN
 
     IF NEW.cat NOT IN (SELECT name FROM category) THEN
-        INSERT INTO category VALUES(NEW.cat);
+        INSERT INTO simple_category VALUES(NEW.cat);
     
     END IF;
     INSERT INTO has_category VALUES(NEW.ean, NEW.cat);
@@ -58,7 +58,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS check_product_category ON product;
+DROP TRIGGER IF EXISTS check_product_category_trigger ON product;
 CREATE TRIGGER check_product_category_trigger
 BEFORE UPDATE OR INSERT ON product
 FOR EACH ROW EXECUTE PROCEDURE product_category();
