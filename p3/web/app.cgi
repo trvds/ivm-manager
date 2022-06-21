@@ -74,10 +74,28 @@ def new_simple_category():
         dbConn.close()
 
 
-@app.route("/delete_simple_category", methods=["POST"])
+@app.route("/delete_simple_category")
 def delete_simple_category():
     dbConn = None
     cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        category = request.args.get("category")
+        query1 = "DELETE FROM has_other WHERE category=%s"
+        query2 = "DELETE FROM simple_category WHERE name=%s;"
+        query3 = "DELETE FROM category WHERE name=%s;"
+        data = (category,)
+        cursor.execute(query1, data)
+        cursor.execute(query2, data)
+        cursor.execute(query3, data)
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 
 @app.route("/super_category")
@@ -127,10 +145,28 @@ def new_super_category():
         dbConn.close()
 
 
-@app.route("/delete_super_category", methods=["POST"])
+@app.route("/delete_super_category")
 def delete_super_category():
     dbConn = None
     cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        category = request.args.get("category")
+        query1 = "DELETE FROM has_other WHERE category=%s OR super_category=%s"
+        query2 = "DELETE FROM super_category WHERE name=%s;"
+        query3 = "DELETE FROM category WHERE name=%s;"
+        data = (category,)
+        cursor.execute(query1, data * 2)
+        cursor.execute(query2, data)
+        cursor.execute(query3, data)
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 
 
@@ -182,10 +218,24 @@ def new_subcategory():
         dbConn.close()
 
 
-@app.route("/delete_subcategory", methods=["POST"])
+@app.route("/delete_subcategory")
 def delete_subcategory():
     dbConn = None
     cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        category = request.args.get("category")
+        query = "DELETE FROM has_other WHERE category=%s"
+        data = (category,)
+        cursor.execute(query, data)
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 @app.route("/retailer")
 def list_retailer():
@@ -233,10 +283,24 @@ def new_retailer():
         dbConn.close()
 
 
-@app.route("/delete_retailer", methods=["POST"])
+@app.route("/delete_retailer")
 def delete_retailer():
     dbConn = None
     cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        tin = request.args.get("tin")
+        query = "DELETE FROM retailer WHERE tin=%s"
+        data = (tin,)
+        cursor.execute(query, data)
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 
 
