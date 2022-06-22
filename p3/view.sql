@@ -8,6 +8,6 @@ SELECT ean, has_category.name AS cat,
     EXTRACT(QUARTER FROM instant) AS quarter,
     EXTRACT(MONTH FROM instant) AS month,
     EXTRACT(DAY FROM instant) AS month_day,
-    EXTRACT(DOW FROM instant) AS week_day,
+    EXTRACT(ISODOW FROM instant) AS week_day,
     district, county, units
 FROM resupply_event NATURAL JOIN has_category NATURAL JOIN installed_in INNER JOIN retail_point ON installed_in.local = retail_point.name;

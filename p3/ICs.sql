@@ -49,19 +49,18 @@ FOR EACH ROW EXECUTE PROCEDURE check_replenished_units();
 CREATE OR REPLACE FUNCTION check_replenished_product()
 RETURNS TRIGGER AS
 $$
-DECLARE prod_cat VARCHAR(255);
 DECLARE shelf_cat VARCHAR(255);
 BEGIN
-    SELECT name INTO prod_cat
-    FROM has_category
-    WHERE ean = NEW.ean;
-
     SELECT name INTO shelf_cat
     FROM shelf
     WHERE number = NEW.number AND manuf = NEW.manuf
         AND serial_number = NEW.serial_number;
 
-    IF prod_cat != shelf_cat THEN
+    IF shelf_cat NOT IN (
+        SELECT name
+        FROM has_category
+        WHERE ean = NEW.ean;
+    ) THEN
         RAISE EXCEPTION 'A product can only be replenished in a shelf that shows
         at least one of that products category';
     END IF;

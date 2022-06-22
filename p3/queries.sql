@@ -12,15 +12,11 @@ FROM retailer NATURAL JOIN (
 ) AS C;
 
 /* 2 */
--- TOOD: e se não existir?
 SELECT name
 FROM retailer NATURAL JOIN responsible_for
-WHERE category_name IN (
-    SELECT name
-    FROM simple_category
-)
+WHERE category_name IN simple_category
 GROUP BY tin
-HAVING COUNT(*) = (
+HAVING COUNT(DISTINCT category_name) = (
     SELECT COUNT(*)
     FROM simple_category
 );
@@ -29,7 +25,7 @@ HAVING COUNT(*) = (
 SELECT ean 
 FROM product
 WHERE ean NOT IN (
-    SELECT ean
+    SELECT DISTINCT ean
     FROM resupply_event
 );
 
