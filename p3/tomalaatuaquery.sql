@@ -1,34 +1,17 @@
 CREATE OR REPLACE FUNCTION get_subcategories_recursive(cat_name VARCHAR(255))
-RETURNS TABLE AS
+RETURNS TABLE (subcat VARCHAR(255)) AS
 $$
-DECLARE subcategories TABLE;
-DECLARE new_subcat TABLE;
 BEGIN
-    subcategories := (
+    WITH RECURSIVE recursive_subcategories AS (
         SELECT name
-        FROM category
+        FROM categories
         WHERE name = cat_name
-    );        
-    IF NOT EXISTS subcategories THEN
-        RAISE EXCEPTION 'That category does not exist';
-    END IF;
-    LOOP
-        new_subcat := (
-            SELECT category
-            FROM has_other
-            WHERE super_category IN subcategories 
-                AND category NOT IN subcategories
-        );
-
-        IF EXISTS new_subcat THEN
-            subcategories := subcategories UNION new_subcat;
-        ELSE
-            RETURN subcategories;
-        ENDIF;
-    END LOOP;
-
-    RAISE EXCEPTION 'Something went wrong!';
+    UNION
+        SELECT category
+        FROM recursive_subcategories s INNER JOIN has_other r
+            ON s.name = r.super_category
+    )
+    SELECT *
+    FROM recursive_subcategories;
 END;
 $$ LANGUAGE plpgsql;
-
-
