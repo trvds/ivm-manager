@@ -60,6 +60,6 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS check_product_category_trigger ON product;
 CREATE TRIGGER check_product_category_trigger
-BEFORE UPDATE OR INSERT ON product
+AFTER UPDATE OR INSERT ON product
 FOR EACH ROW EXECUTE PROCEDURE product_category();
 

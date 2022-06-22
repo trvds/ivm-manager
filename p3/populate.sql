@@ -1,10 +1,12 @@
 -- Table: category
 -- INSERT INTO category VALUES ('category');
+/*
 INSERT INTO category VALUES ('Doces');
 INSERT INTO category VALUES ('Bolos');
 INSERT INTO category VALUES ('Chocolates');
 INSERT INTO category VALUES ('Bebidas');
 INSERT INTO category VALUES ('Refrigerantes');
+*/
 -- Table: simple_category
 -- INSERT INTO simple_category VALUES ('category');
 INSERT INTO simple_category VALUES ('Bolos');
@@ -29,12 +31,14 @@ INSERT INTO product VALUES ('7446669566976', 'Bolos', 'Bolo de baunilha');
 INSERT INTO product VALUES ('3132415879832', 'Doces', 'Gomas');
 INSERT INTO product VALUES ('0506275190843', 'Refrigerantes', 'Coca-Cola');
 
+/*
 -- Table: has_category
 -- INSERT INTO has_category VALUES ('ean', 'category');
 INSERT INTO has_category VALUES ('4486942345738', 'Bolos');
 INSERT INTO has_category VALUES ('7446669566976', 'Bolos');
 INSERT INTO has_category VALUES ('0506275190843', 'Refrigerantes');
 INSERT INTO has_category VALUES ('3132415879832', 'Doces');
+*/
 
 -- Table: ivm
 -- INSERT INTO ivm VALUES ('serial_number', 'manuf');
