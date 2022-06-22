@@ -63,3 +63,40 @@ CREATE TRIGGER check_product_category_trigger
 AFTER UPDATE OR INSERT ON product
 FOR EACH ROW EXECUTE PROCEDURE product_category();
 
+-------------------------------------------------------------
+CREATE OR REPLACE FUNCTION add_category_retailer()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF NEW.category_name NOT IN (SELECT name FROM category) THEN
+        INSERT INTO simple_category VALUES (NEW.category_name);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_category_retailer_trigger ON responsible_for;
+CREATE TRIGGER add_category_retailer_trigger
+BEFORE UPDATE OR INSERT ON responsible_for
+FOR EACH ROW EXECUTE PROCEDURE add_category_retailer();
+
+------------------------------------------------------------
+CREATE OR REPLACE FUNCTION add_super_cat()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF NEW.super_category NOT IN (SELECT name FROM category) THEN
+        RETURN NEW;
+    ELSEIF NEW.super_category NOT IN (SELECT name FROM super_category) THEN
+        DELETE FROM simple_category WHERE name = NEW.super_category;
+        INSERT INTO super_category VALUES (NEW.super_category);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS add_super_cat_trigger ON has_other;
+CREATE TRIGGER add_super_cat_trigger
+BEFORE UPDATE OR INSERT ON has_other
+FOR EACH ROW EXECUTE PROCEDURE add_super_cat();
