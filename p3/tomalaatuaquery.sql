@@ -4,7 +4,7 @@ $$
 BEGIN
     WITH RECURSIVE recursive_subcategories AS (
         SELECT name
-        FROM categories
+        FROM category
         WHERE name = cat_name
     UNION
         SELECT category
