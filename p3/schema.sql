@@ -14,29 +14,29 @@ DROP TABLE IF EXISTS responsible_for CASCADE;
 DROP TABLE IF EXISTS resupply_event CASCADE;
 
 CREATE TABLE category (
-    name VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) PRIMARY KEY,
 );
 
 CREATE TABLE simple_category (
-    name VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (name) REFERENCES category(name)
 );
 
 CREATE TABLE super_category (
-    name VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (name) REFERENCES category(name)
 );
 
 CREATE TABLE has_other (
     super_category VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL PRIMARY KEY,
+    category VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (super_category) REFERENCES super_category(name),
     FOREIGN KEY (category) REFERENCES category(name),
     CHECK super_category != category
 );
 
 CREATE TABLE product (
-    ean CHAR(13) NOT NULL PRIMARY KEY,
+    ean CHAR(13) PRIMARY KEY,
     cat VARCHAR(255) NOT NULL,
     descr VARCHAR(255) NOT NULL,
     FOREIGN KEY (cat) REFERENCES category(name)
@@ -57,7 +57,7 @@ CREATE TABLE ivm(
 );
 
 CREATE TABLE retail_point (
-    name VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) PRIMARY KEY,
     district VARCHAR(255) NOT NULL,
     county VARCHAR(255) NOT NULL,
 );
@@ -98,7 +98,7 @@ CREATE TABLE planogram (
 );
 
 CREATE TABLE retailer (
-    tin CHAR(9) NOT NULL PRIMARY KEY,
+    tin CHAR(9) PRIMARY KEY,
     name VARCHAR(255) NOT NULL unique,
 );
 
