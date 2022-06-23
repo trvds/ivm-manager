@@ -34,6 +34,7 @@ create table super_category (
 create table has_other (
     super_category varchar(255) not null,
     category varchar(255) not null,
+    CHECK (super_category != category),
     constraint pk_has_other primary key(category),
     constraint fk_has_other_super_category foreign key(super_category) references super_category(name),
     constraint fk_has_other_category foreign key(category) references category(name)

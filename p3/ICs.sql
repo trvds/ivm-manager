@@ -1,22 +1,3 @@
---IC-1
-
-CREATE OR REPLACE FUNCTION check_category_loop()
-RETURNS TRIGGER AS
-$$
-BEGIN
-    IF NEW.category = NEW.super_category THEN
-        RAISE EXCEPTION 'A category can not be contained in itself';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS check_category_loop_trigger ON has_other;
-
-CREATE TRIGGER check_category_loop_trigger
-BEFORE UPDATE OR INSERT ON has_other
-FOR EACH ROW EXECUTE PROCEDURE check_category_loop();
-
 --IC-4
 
 CREATE OR REPLACE FUNCTION check_replenished_units()
