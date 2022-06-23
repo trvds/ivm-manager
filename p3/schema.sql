@@ -1,18 +1,17 @@
-DROP TABLE IF EXISTS category cascade;
-DROP TABLE IF EXISTS simple_category cascade;
-DROP TABLE IF EXISTS super_category cascade;
-DROP TABLE IF EXISTS has_other cascade;
-DROP TABLE IF EXISTS product cascade;
-DROP TABLE IF EXISTS has_category cascade;
-DROP TABLE IF EXISTS ivm cascade;
-DROP TABLE IF EXISTS retail_poINT cascade;
-DROP TABLE IF EXISTS installed_in cascade;
-DROP TABLE IF EXISTS shelf cascade;
-DROP TABLE IF EXISTS planogram cascade;
-DROP TABLE IF EXISTS retailer cascade;
-DROP TABLE IF EXISTS responsible_for cascade;
-DROP TABLE IF EXISTS resupply_event cascade;
-
+DROP TABLE IF EXISTS category CASCADE;
+DROP TABLE IF EXISTS simple_category CASCADE;
+DROP TABLE IF EXISTS super_category CASCADE;
+DROP TABLE IF EXISTS has_other CASCADE;
+DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS has_category CASCADE;
+DROP TABLE IF EXISTS ivm CASCADE;
+DROP TABLE IF EXISTS retail_poINT CASCADE;
+DROP TABLE IF EXISTS installed_in CASCADE;
+DROP TABLE IF EXISTS shelf CASCADE;
+DROP TABLE IF EXISTS planogram CASCADE;
+DROP TABLE IF EXISTS retailer CASCADE;
+DROP TABLE IF EXISTS responsible_for CASCADE;
+DROP TABLE IF EXISTS resupply_event CASCADE;
 
 CREATE TABLE category (
     name VARCHAR(255) NOT NULL PRIMARY KEY,
@@ -77,7 +76,7 @@ CREATE TABLE shelf (
     number INT NOT NULL,
     serial_number CHAR(20) NOT NULL,
     manuf VARCHAR(255) NOT NULL,
-    height real NOT NULL,
+    height REAL NOT NULL,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY(number, serial_number, manuf),
     FOREIGN KEY (serial_number, manuf) REFERENCES ivm(serial_number, manuf),
