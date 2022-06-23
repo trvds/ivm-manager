@@ -4,12 +4,12 @@ FROM retailer NATURAL JOIN (
     SELECT tin
     FROM responsible_for
     GROUP BY tin
-    HAVING COUNT(*) >= ALL (
-        SELECT COUNT(*)
+    HAVING COUNT(DISTINCT category_name) >= ALL (
+        SELECT COUNT(DISTINCT category_name)
         FROM responsible_for
         GROUP BY tin
     )
-) AS C;
+);
 
 /* 2 */
 SELECT name
@@ -25,7 +25,7 @@ HAVING COUNT(DISTINCT category_name) = (
 SELECT ean 
 FROM product
 WHERE ean NOT IN (
-    SELECT DISTINCT ean
+    SELECT ean
     FROM resupply_event
 );
 
