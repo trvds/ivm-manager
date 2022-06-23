@@ -9,12 +9,12 @@ FROM retailer NATURAL JOIN (
         FROM responsible_for
         GROUP BY tin
     )
-);
+) AS most_responsible;
 
 /* 2 */
 SELECT name
 FROM retailer NATURAL JOIN responsible_for
-WHERE category_name IN simple_category
+WHERE category_name IN (SELECT * FROM simple_category)
 GROUP BY tin
 HAVING COUNT(DISTINCT category_name) = (
     SELECT COUNT(*)

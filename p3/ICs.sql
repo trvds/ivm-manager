@@ -40,7 +40,7 @@ BEGIN
     IF shelf_cat NOT IN (
         SELECT name
         FROM has_category
-        WHERE ean = NEW.ean;
+        WHERE ean = NEW.ean
     ) THEN
         RAISE EXCEPTION 'A product can only be replenished in a shelf that shows
         at least one of that products category';

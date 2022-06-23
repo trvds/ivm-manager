@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS responsible_for CASCADE;
 DROP TABLE IF EXISTS resupply_event CASCADE;
 
 CREATE TABLE category (
-    name VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) PRIMARY KEY
 );
 
 CREATE TABLE simple_category (
@@ -32,7 +32,7 @@ CREATE TABLE has_other (
     category VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (super_category) REFERENCES super_category(name),
     FOREIGN KEY (category) REFERENCES category(name),
-    CHECK super_category != category
+    CHECK (super_category != category)
 );
 
 CREATE TABLE product (
@@ -59,7 +59,7 @@ CREATE TABLE ivm(
 CREATE TABLE retail_point (
     name VARCHAR(255) PRIMARY KEY,
     district VARCHAR(255) NOT NULL,
-    county VARCHAR(255) NOT NULL,
+    county VARCHAR(255) NOT NULL
 );
 
 
@@ -99,7 +99,7 @@ CREATE TABLE planogram (
 
 CREATE TABLE retailer (
     tin CHAR(9) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL unique,
+    name VARCHAR(255) NOT NULL unique
 );
 
 CREATE TABLE responsible_for (

@@ -9,7 +9,7 @@ SELECT resupply_event.ean, has_category.name AS cat,
     EXTRACT(MONTH FROM resupply_event.instant) AS month,
     EXTRACT(DAY FROM resupply_event.instant) AS month_day,
     EXTRACT(ISODOW FROM resupply_event.instant) AS week_day,
-    retail.point.district, retail.point.county, resupply_event.units
+    retail_point.district, retail_point.county, resupply_event.units
 FROM resupply_event 
     NATURAL JOIN has_category 
     NATURAL JOIN installed_in 
