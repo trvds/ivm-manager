@@ -63,8 +63,9 @@ RETURNS TRIGGER AS
 $$
 BEGIN
 
-    IF NEW.name NOT IN (SELECT name FROM super_category) AND NEW.name NOT IN(SELECT name FROM category) THEN
-            INSERT INTO category VALUES(NEW.name);
+    IF NEW.name NOT IN (SELECT name FROM super_category) 
+        AND NEW.name NOT IN(SELECT name FROM category) THEN
+        INSERT INTO category VALUES(NEW.name);
 
     ELSEIF NEW.name IN (SELECT name FROM super_category) THEN
         RAISE EXCEPTION 'Category already exists and it is a super category';
@@ -85,8 +86,9 @@ RETURNS TRIGGER AS
 $$
 BEGIN
 
-    IF NEW.name NOT IN (SELECT name FROM simple_category) AND NEW.name NOT IN(SELECT name FROM category) THEN
-            INSERT INTO category VALUES(NEW.name);
+    IF NEW.name NOT IN (SELECT name FROM simple_category) 
+        AND NEW.name NOT IN(SELECT name FROM category) THEN
+        INSERT INTO category VALUES(NEW.name);
 
     ELSEIF NEW.name IN (SELECT name FROM simple_category) THEN
         DELETE FROM simple_category WHERE name = NEW.name;
