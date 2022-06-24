@@ -109,10 +109,10 @@ $$
 DECLARE 
     hasother_row has_other%ROWTYPE;
 BEGIN
-    FOR hasother_row IN (SELECT * FROM has_other WHERE super_category = name)
+    FOR hasother_row IN (SELECT * FROM has_other WHERE super_category = cat_name)
     LOOP
         RETURN NEXT hasother_row;
-        FOR hasother_row IN (SELECT * FROM all_subcats(hasother_row.category)) 
+        FOR hasother_row IN (SELECT * FROM list_subcategories(hasother_row.category)) 
         LOOP
             RETURN NEXT hasother_row;
         END LOOP;
