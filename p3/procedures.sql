@@ -114,7 +114,7 @@ BEGIN
     LOOP
         RETURN NEXT hasother_row.category;
         FOR hasother_row IN 
-            (SELECT * FROM list_subcategories(hasother_row.category)) 
+            (SELECT * FROM list_subcategories(hasother_row)) 
         LOOP
             RETURN NEXT hasother_row.category;
         END LOOP;
