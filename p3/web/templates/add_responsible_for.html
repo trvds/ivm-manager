@@ -8,11 +8,11 @@
 <h3>Adicionar responsabilidade de reposição</h3>
 <form action="new_responsible_for?tin={{ params.get('tin') }}" method="post">
     <h5>Categoria:</h5>
-<p><input type="text" name="category"/></p>
+<p><input type="text" name="category" minlength="1" maxlenght="255" required/></p>
     <h5>Número de série:</h5>
-<p><input type="text" name="serial_number"/></p>
+<p><input type="text" name="serial_number" minlength="1" maxlenght="20" required/></p>
     <h5>Fabricante:</h5>
-<p><input type="text" name="manuf"/></p>
+<p><input type="text" name="manuf" minlength="1" maxlenght="255" required/></p>
 <p><input type="submit" value="Submeter"/></p>
 </form>
 </body>

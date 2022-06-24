@@ -17,15 +17,15 @@
         <tbody>
         {% for record in cursor %}
             <tr>
-                <td>{{ record[0] }}</td>
-                <td><a href="delete_subcategory?category={{ record[0] }}">Remover
+                <td>{{ record[0].split(",")[1][:-1] }}</td>
+                <td><a href="delete_subcategory?category={{ record[0].split(",")[1][:-1] }}">Remover
             </tr>
         {% endfor %}
         </tbody>
     </table>
     <br>
     <button onclick="location.href='add_subcategory?category={{ params.get("category") }}'" type="button">
-         Add new subcategory
+        Adicionar nova subcategoria
     </button>
     <br>
     <form action="super_category">
