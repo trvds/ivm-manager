@@ -104,17 +104,24 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION list_subcategories(cat_name VARCHAR(255))
-RETURNS SETOF has_other AS
+RETURNS SETOF category AS
 $$
 DECLARE 
     hasother_row has_other%ROWTYPE;
+    new_category category%ROWTYPE;
 BEGIN
-    FOR hasother_row IN (SELECT * FROM has_other WHERE super_category = cat_name)
+    FOR hasother_row IN 
+        (SELECT * FROM has_other WHERE super_category = cat_name)
     LOOP
-        RETURN NEXT hasother_row;
-        FOR hasother_row IN (SELECT * FROM list_subcategories(hasother_row.category)) 
+        new_category := 
+            (SELECT * FROM category WHERE name = hasother_row.category);
+        RETURN NEXT new_category;
+        FOR hasother_row IN 
+            (SELECT * FROM list_subcategories(hasother_row.category)) 
         LOOP
-            RETURN NEXT hasother_row;
+            new_category := 
+                (SELECT * FROM category WHERE name = hasother_row.category);
+            RETURN NEXT new_category;
         END LOOP;
     END LOOP;
 
