@@ -7,9 +7,9 @@ import psycopg2.extras
 
 ## SGBD configs
 DB_HOST = "db.tecnico.ulisboa.pt"
-DB_USER = "ist199335"
+DB_USER = "*********"
 DB_DATABASE = DB_USER
-DB_PASSWORD = "gaev2698"
+DB_PASSWORD = "******"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
     DB_HOST,
     DB_DATABASE,
@@ -18,6 +18,7 @@ DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
 )
 
 app = Flask(__name__)
+
 
 @app.route("/main_menu")
 def main_menu():
@@ -65,8 +66,8 @@ def new_simple_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        msg = ""
-        if e.pgcode == '23505':
+        msg = str(e)
+        if e.pgcode == "23505":
             msg = "Já existe uma categoria com o nome que introduziu."
         return render_template("error.html", error_message=msg)
     finally:
@@ -133,8 +134,8 @@ def new_super_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        msg = ""
-        if e.pgcode == '23505':
+        msg = str(e)
+        if e.pgcode == "23505":
             msg = "Já existe uma categoria com o nome que introduziu."
         return render_template("error.html", error_message=msg)
     finally:
@@ -163,7 +164,6 @@ def delete_super_category():
         dbConn.close()
 
 
-
 @app.route("/subcategory")
 def list_subcategories():
     dbConn = None
@@ -173,7 +173,7 @@ def list_subcategories():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         params = request.args
         query = "SELECT list_subcategories(%s)"
-        data = (params.get("category"), )
+        data = (params.get("category"),)
         cursor.execute(query, data)
         return render_template("subcategory.html", cursor=cursor, params=params)
     except Exception as e:
@@ -205,8 +205,8 @@ def new_subcategory():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        msg = ""
-        if e.pgcode == '23505':
+        msg = str(e)
+        if e.pgcode == "23505":
             msg = "A subcategoria introduzida já possui uma super-categoria."
         return render_template("error.html", error_message=msg)
     finally:
@@ -233,6 +233,7 @@ def delete_subcategory():
         dbConn.commit()
         cursor.close()
         dbConn.close()
+
 
 @app.route("/retailer")
 def list_retailer():
@@ -270,11 +271,11 @@ def new_retailer():
         name = request.form["name"]
         query = "CALL insert_retailer(%s, %s);"
         data = (tin, name)
-        cursor.execute(query, data)  
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        msg = ""
-        if e.pgcode == '23505':
+        msg = str(e)
+        if e.pgcode == "23505":
             msg = "Já existe um retalhista com o TIN e/ou o nome introduzidos."
         return render_template("error.html", error_message=msg)
     finally:
@@ -312,7 +313,7 @@ def list_responsible_for():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         params = request.args
         query = "SELECT * FROM responsible_for WHERE tin = %s;"
-        data = (params.get("tin"), )
+        data = (params.get("tin"),)
         cursor.execute(query, data)
         return render_template("responsible_for.html", cursor=cursor, params=params)
     except Exception as e:
@@ -320,6 +321,7 @@ def list_responsible_for():
     finally:
         cursor.close()
         dbConn.close()
+
 
 @app.route("/add_responsible_for")
 def add_responsible_for():
@@ -343,13 +345,13 @@ def new_responsible_for():
         manuf = request.form["manuf"]
         query = "CALL insert_responsible_for(%s, %s, %s, %s);"
         data = (tin, category, serial_number, manuf)
-        cursor.execute(query, data)  
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
         msg = str(e.pgcode)
-        if e.pgcode == '23503':
+        if e.pgcode == "23503":
             msg = "A categoria e/ou os dados da IVM introduzidas não existem"
-        elif e.pgcode == '23505':
+        elif e.pgcode == "23505":
             msg = "O retalhista já é responsável por repor uma categoria nessa máquina."
         return render_template("error.html", error_message=msg)
     finally:
@@ -413,7 +415,12 @@ def list_resupply_events():
         return render_template("resupply_event.html", cursor=cursor, params=params)
     except Exception as e:
 
-        return render_template("error.html", error_message=e.split("CONTEXT", )[0])
+        return render_template(
+            "error.html",
+            error_message=e.split(
+                "CONTEXT",
+            )[0],
+        )
     finally:
         cursor.close()
         dbConn.close()
