@@ -102,3 +102,27 @@ BEGIN
     DELETE FROM responsible_for WHERE tin = tin_number AND serial_number = s_number AND manuf = manuf_number;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION all_subcats(name VARCHAR(255))
+RETURNS SETOF has_other AS
+$$
+DECLARE 
+    direct has_other%ROWTYPE;
+    indirect has_other%ROWTYPE;
+BEGIN
+    FOR direct IN (SELECT * FROM has_other WHERE super_category = name)
+    LOOP
+        RETURN NEXT direct;
+        FOR indirect IN (SELECT * FROM all_subcats(direct.category)) 
+        LOOP
+            RETURN NEXT indirect;
+        END LOOP;
+    END LOOP;
+
+    RETURN (
+        SELECT super_category 
+        FROM all_subcats(name) 
+        WHERE NOT super_category = name
+    );
+END;
+$$ LANGUAGE plpgsql;
