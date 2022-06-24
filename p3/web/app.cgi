@@ -24,7 +24,7 @@ def main_menu():
     try:
         return render_template("main_menu.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/simple_category")
@@ -38,7 +38,7 @@ def list_simple_categories():
         cursor.execute(query)
         return render_template("simple_category.html", cursor=cursor)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -49,7 +49,7 @@ def add_simple_category():
     try:
         return render_template("add_simple_category.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/new_simple_category", methods=["POST"])
@@ -65,7 +65,10 @@ def new_simple_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        msg = ""
+        if e.pgcode == '23505':
+            msg = "Já existe uma categoria com o nome que introduziu."
+        return render_template("error.html", error_message=msg)
     finally:
         dbConn.commit()
         cursor.close()
@@ -85,7 +88,7 @@ def delete_simple_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -103,7 +106,7 @@ def list_super_categories():
         cursor.execute(query)
         return render_template("super_category.html", cursor=cursor)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -114,7 +117,7 @@ def add_super_category():
     try:
         return render_template("add_super_category.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/new_super_category", methods=["POST"])
@@ -130,7 +133,10 @@ def new_super_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        msg = ""
+        if e.pgcode == '23505':
+            msg = "Já existe uma categoria com o nome que introduziu."
+        return render_template("error.html", error_message=msg)
     finally:
         dbConn.commit()
         cursor.close()
@@ -150,7 +156,7 @@ def delete_super_category():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -183,7 +189,7 @@ def list_subcategories():
         cursor.execute(query, data)
         return render_template("subcategory.html", cursor=cursor, params=params)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -194,7 +200,7 @@ def add_subcategory():
     try:
         return render_template("add_subcategory.html", params=request.args)
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/new_subcategory", methods=["POST"])
@@ -211,7 +217,10 @@ def new_subcategory():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        msg = ""
+        if e.pgcode == '23505':
+            msg = "A subcategoria introduzida já possui uma super-categoria."
+        return render_template("error.html", error_message=msg)
     finally:
         dbConn.commit()
         cursor.close()
@@ -231,7 +240,7 @@ def delete_subcategory():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -248,7 +257,7 @@ def list_retailer():
         cursor.execute(query)
         return render_template("retailer.html", cursor=cursor)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -259,7 +268,7 @@ def add_retailer():
     try:
         return render_template("add_retailer.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/new_retailer", methods=["POST"])
@@ -276,7 +285,10 @@ def new_retailer():
         cursor.execute(query, data)  
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        msg = ""
+        if e.pgcode == '23505':
+            msg = "Já existe um retalhista com o TIN e/ou o nome introduzidos."
+        return render_template("error.html", error_message=msg)
     finally:
         dbConn.commit()
         cursor.close()
@@ -296,7 +308,7 @@ def delete_retailer():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -316,7 +328,7 @@ def list_responsible_for():
         cursor.execute(query, data)
         return render_template("responsible_for.html", cursor=cursor, params=params)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -327,7 +339,7 @@ def add_responsible_for():
         params = request.args
         return render_template("add_responsible_for.html", params=params)
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
 
 
 @app.route("/new_responsible_for", methods=["POST"])
@@ -343,11 +355,15 @@ def new_responsible_for():
         manuf = request.form["manuf"]
         query = "CALL insert_responsible_for(%s, %s, %s, %s);"
         data = (tin, category, serial_number, manuf)
-        print(data)
         cursor.execute(query, data)  
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        msg = str(e.pgcode)
+        if e.pgcode == '23503':
+            msg = "A categoria e/ou os dados da IVM introduzidas não existem"
+        elif e.pgcode == '23505':
+            msg = "O retalhista já é responsável por repor uma categoria nessa máquina."
+        return render_template("error.html", error_message=msg)
     finally:
         dbConn.commit()
         cursor.close()
@@ -369,7 +385,7 @@ def delete_responsible_for():
         cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -387,7 +403,7 @@ def list_ivms():
         cursor.execute(query)
         return render_template("ivm.html", cursor=cursor)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -408,7 +424,8 @@ def list_resupply_events():
         cursor.execute(query, data)
         return render_template("resupply_event.html", cursor=cursor, params=params)
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+
+        return render_template("error.html", error_message=e.split("CONTEXT", )[0])
     finally:
         cursor.close()
         dbConn.close()
