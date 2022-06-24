@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add responsible for - Flask</title>
+</head>
+<body>
+<h3>Adicionar responsabilidade de reposição</h3>
+<form action="new_responsible_for?tin={{ params.get('tin') }}" method="post">
+    <h5>Categoria:</h5>
+<p><input type="text" name="category"/></p>
+    <h5>Número de série:</h5>
+<p><input type="text" name="serial_number"/></p>
+    <h5>Fabricante:</h5>
+<p><input type="text" name="manuf"/></p>
+<p><input type="submit" value="Submit"/></p>
+</form>
+</body>
+</html>

@@ -60,11 +60,9 @@ def new_simple_category():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.form["category"]
-        query1 = "INSERT INTO category VALUES (%s);"
-        query2 = "INSERT INTO simple_category VALUES (%s);"
+        query = "CALL insert_simple_category(%s);"
         data = (category,)
-        cursor.execute(query1, data)
-        cursor.execute(query2, data)        
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
         return str(e)
@@ -82,13 +80,9 @@ def delete_simple_category():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.args.get("category")
-        query1 = "DELETE FROM has_other WHERE category=%s"
-        query2 = "DELETE FROM simple_category WHERE name=%s;"
-        query3 = "DELETE FROM category WHERE name=%s;"
+        query = "CALL delete_simple_category(%s);"
         data = (category,)
-        cursor.execute(query1, data)
-        cursor.execute(query2, data)
-        cursor.execute(query3, data)
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
         return str(e)
@@ -131,11 +125,9 @@ def new_super_category():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.form["category"]
-        query1 = "INSERT INTO category VALUES (%s);"
-        query2 = "INSERT INTO super_category VALUES (%s);"
+        query = "CALL insert_super_category(%s);"
         data = (category,)
-        cursor.execute(query1, data)
-        cursor.execute(query2, data)        
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
         return str(e)
@@ -153,13 +145,9 @@ def delete_super_category():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.args.get("category")
-        query1 = "DELETE FROM has_other WHERE category=%s OR super_category=%s"
-        query2 = "DELETE FROM super_category WHERE name=%s;"
-        query3 = "DELETE FROM category WHERE name=%s;"
+        query = "CALL delete_super_category(%s);"
         data = (category,)
-        cursor.execute(query1, data * 2)
-        cursor.execute(query2, data)
-        cursor.execute(query3, data)
+        cursor.execute(query, data)
         return render_template("operation_successful.html")
     except Exception as e:
         return str(e)
@@ -178,8 +166,20 @@ def list_subcategories():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         params = request.args
-        query = "SELECT category FROM has_other WHERE super_category = %s;"
-        data = (params.get("category"),)
+        query = """
+                WITH RECURSIVE recursive_subcategories AS (
+                    SELECT name 
+                    FROM category 
+                    WHERE name = %s 
+                    UNION 
+                    SELECT category 
+                    FROM recursive_subcategories AS s 
+                    INNER JOIN has_other AS r ON s.name = r.super_category) 
+                SELECT * 
+                FROM recursive_subcategories 
+                WHERE NOT name = %s;
+                """
+        data = (params.get("category"), ) * 2
         cursor.execute(query, data)
         return render_template("subcategory.html", cursor=cursor, params=params)
     except Exception as e:
@@ -206,7 +206,7 @@ def new_subcategory():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.form["category"]
         subcategory = request.form["subcategory"]
-        query = "INSERT INTO has_other VALUES (%s, %s)"
+        query = "CALL insert_subcategory(%s, %s);"
         data = (category, subcategory)
         cursor.execute(query, data)
         return render_template("operation_successful.html")
@@ -226,7 +226,7 @@ def delete_subcategory():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         category = request.args.get("category")
-        query = "DELETE FROM has_other WHERE category=%s"
+        query = "CALL delete_subcategory(%s);"
         data = (category,)
         cursor.execute(query, data)
         return render_template("operation_successful.html")
@@ -271,7 +271,7 @@ def new_retailer():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         tin = request.form["tin"]
         name = request.form["name"]
-        query = "INSERT INTO retailer VALUES (%s, %s);"
+        query = "CALL insert_retailer(%s, %s);"
         data = (tin, name)
         cursor.execute(query, data)  
         return render_template("operation_successful.html")
@@ -291,7 +291,7 @@ def delete_retailer():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         tin = request.args.get("tin")
-        query = "DELETE FROM retailer WHERE tin=%s"
+        query = "CALL delete_retailer(%s);"
         data = (tin,)
         cursor.execute(query, data)
         return render_template("operation_successful.html")
@@ -302,6 +302,78 @@ def delete_retailer():
         cursor.close()
         dbConn.close()
 
+
+@app.route("/responsible_for")
+def list_responsible_for():
+    dbConn = None
+    cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        params = request.args
+        query = "SELECT * FROM responsible_for WHERE tin = %s;"
+        data = (params.get("tin"), )
+        cursor.execute(query, data)
+        return render_template("responsible_for.html", cursor=cursor, params=params)
+    except Exception as e:
+        return str(e)  # Renders a page with the error.
+    finally:
+        cursor.close()
+        dbConn.close()
+
+@app.route("/add_responsible_for")
+def add_responsible_for():
+    try:
+        params = request.args
+        return render_template("add_responsible_for.html", params=params)
+    except Exception as e:
+        return str(e)
+
+
+@app.route("/new_responsible_for", methods=["POST"])
+def new_responsible_for():
+    dbConn = None
+    cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        tin = request.args.get("tin")
+        category = request.form["category"]
+        serial_number = request.form["serial_number"]
+        manuf = request.form["manuf"]
+        query = "CALL insert_responsible_for(%s, %s, %s, %s);"
+        data = (tin, category, serial_number, manuf)
+        print(data)
+        cursor.execute(query, data)  
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
+
+
+@app.route("/delete_responsible_for")
+def delete_responsible_for():
+    dbConn = None
+    cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        tin = request.args.get("tin")
+        serial_number = request.args.get("serial_number")
+        manuf = request.args.get("manuf")
+        query = "CALL delete_responsible_for(%s, %s, %s);"
+        data = (tin, serial_number, manuf)
+        cursor.execute(query, data)
+        return render_template("operation_successful.html")
+    except Exception as e:
+        return str(e)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 
 @app.route("/ivm")

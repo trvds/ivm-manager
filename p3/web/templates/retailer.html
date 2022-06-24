@@ -13,6 +13,7 @@
             <tr>
                 <th>TIN</th>
                 <th>Nome</th>
+                <th>Responsabilidades de Reposição</th>
                 <th>Remover retalhista</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ record[0] }}</td>
                 <td>{{ record[1] }}</td>
+                <td><a href="responsible_for?tin={{ record[0] }}">Responsabilidades
                 <td><a href="delete_retailer?tin={{ record[0] }}">Remover
             </tr>
         {% endfor %}
