@@ -108,20 +108,15 @@ RETURNS SETOF category AS
 $$
 DECLARE 
     hasother_row has_other%ROWTYPE;
-    new_category category%ROWTYPE;
 BEGIN
     FOR hasother_row IN 
         (SELECT * FROM has_other WHERE super_category = cat_name)
     LOOP
-        new_category := 
-            (SELECT * FROM category WHERE name = hasother_row.super_category);
-        RETURN NEXT new_category;
+        RETURN NEXT hasother_row.category;
         FOR hasother_row IN 
             (SELECT * FROM list_subcategories(hasother_row.category)) 
         LOOP
-            new_category := 
-                (SELECT * FROM category WHERE name = hasother_row.super_category);
-            RETURN NEXT new_category;
+            RETURN NEXT hasother_row.category;
         END LOOP;
     END LOOP;
 
