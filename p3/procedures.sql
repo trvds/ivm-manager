@@ -114,13 +114,13 @@ BEGIN
         (SELECT * FROM has_other WHERE super_category = cat_name)
     LOOP
         new_category := 
-            (SELECT * FROM category WHERE name = hasother_row.category);
+            (SELECT * FROM category WHERE name = hasother_row.super_category);
         RETURN NEXT new_category;
         FOR hasother_row IN 
             (SELECT * FROM list_subcategories(hasother_row.category)) 
         LOOP
             new_category := 
-                (SELECT * FROM category WHERE name = hasother_row.category);
+                (SELECT * FROM category WHERE name = hasother_row.super_category);
             RETURN NEXT new_category;
         END LOOP;
     END LOOP;
