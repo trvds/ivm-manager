@@ -103,26 +103,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION all_subcats(name VARCHAR(255))
+CREATE OR REPLACE FUNCTION list_subcategories(cat_name VARCHAR(255))
 RETURNS SETOF has_other AS
 $$
 DECLARE 
-    direct has_other%ROWTYPE;
-    indirect has_other%ROWTYPE;
+    hasother_row has_other%ROWTYPE;
 BEGIN
-    FOR direct IN (SELECT * FROM has_other WHERE super_category = name)
+    FOR hasother_row IN (SELECT * FROM has_other WHERE super_category = name)
     LOOP
-        RETURN NEXT direct;
-        FOR indirect IN (SELECT * FROM all_subcats(direct.category)) 
+        RETURN NEXT hasother_row;
+        FOR hasother_row IN (SELECT * FROM all_subcats(hasother_row.category)) 
         LOOP
-            RETURN NEXT indirect;
+            RETURN NEXT hasother_row;
         END LOOP;
     END LOOP;
 
-    RETURN (
-        SELECT super_category 
-        FROM all_subcats(name) 
-        WHERE NOT super_category = name
-    );
+    RETURN;
 END;
 $$ LANGUAGE plpgsql;
